@@ -1,0 +1,121 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:UI"
+        xmlns:Default="clr-namespace:;assembly=BE" xmlns:BE="clr-namespace:BE;assembly=BE" x:Class="UI.MainWindow"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid Height="auto"  Width="auto">
+
+        <Grid x:Name="Login_grid" Visibility="Hidden">
+
+            <TextBlock HorizontalAlignment="Left" Margin="60,70,0,0" TextWrapping="Wrap" Text="Welcome to the DMV system" VerticalAlignment="Top" Height="92" Width="675" FontSize="48" FontWeight="Bold" RenderTransformOrigin="0.499,-0.163"/>
+            <Button x:Name="Log_in_Button" Content="Log in" HorizontalAlignment="Left" Margin="331,328,0,0" VerticalAlignment="Top" Width="175" Height="46" FontSize="24" FontWeight="Bold" Background="#FF1E238B" Click="Log_in_Button_Click"/>
+            <Label x:Name="Lb_User_name" Content="User Name" HorizontalAlignment="Left" Margin="299,203,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="16"/>
+            <Label x:Name="Lb_password" Content="Password" HorizontalAlignment="Left" Margin="299,260,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
+            <TextBox x:Name="Tb_User_name" HorizontalAlignment="Left" Height="23" Margin="407,210,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="16"/>
+            <PasswordBox x:Name="Pb_Password" HorizontalAlignment="Left" Margin="407,268,0,0" VerticalAlignment="Top" Width="120" Height="23" MaxLength="9"/>
+
+        </Grid>
+
+        <Grid x:Name="Menu_1" >
+            <Label x:Name="Lb_Admin" Content="Admin mode" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="92" FontSize="14"/>
+
+            <Button x:Name="Add_trainee_button" Content="Add trainee" HorizontalAlignment="Left" Margin="163,74,0,0" VerticalAlignment="Top" Width="175" Height="75" FontWeight="Bold" FontSize="22" Click="Add_trainee_button_Click"/>
+            <Button x:Name="Add_tester_button" Content="Add tester" HorizontalAlignment="Left" Margin="443,74,0,0" VerticalAlignment="Top" Width="175" Height="75" FontSize="22" FontWeight="Bold" Click="Add_tester_button_Click"/>
+            <Button x:Name="Set_test_button" Content="Set a test" HorizontalAlignment="Left" Margin="163,214,0,0" VerticalAlignment="Top" Width="175" Height="75" FontWeight="Bold" FontSize="22" Click="Set_test_button_Click"/>
+            <Button x:Name="More_button" Content="More" HorizontalAlignment="Left" Margin="443,214,0,0" VerticalAlignment="Top" Width="175" Height="75" FontSize="22" FontWeight="Bold" Click="More_button_Click"/>
+            <Button x:Name="Bt_logOut" Content="Log Out" HorizontalAlignment="Left" Height="47" Margin="686,356,0,0" VerticalAlignment="Top" Width="87" FontSize="18" FontWeight="Bold" Click="Bt_logOut_Click"/>
+            <Button Content="Button" HorizontalAlignment="Left" Height="30" Margin="269,343,0,0" VerticalAlignment="Top" Width="179" Click="Button_Click100"/>
+
+        </Grid>
+
+        <Grid x:Name ="Menu_2" Visibility="Hidden">
+            <Label Content="Admin mode" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="92" FontSize="14" BorderBrush="#FF661717"/>
+
+            <Button x:Name="Update_TraineeButton" Content="Update Trainee" HorizontalAlignment="Left" Height="63" Margin="165,56,0,0" VerticalAlignment="Top" Width="165" FontWeight="Bold" FontSize="20" Click="Update_TraineeButton_Click"/>
+            <Button x:Name="Update_TesterButton" Content="Update Tester" HorizontalAlignment="Left" Height="63" Margin="477,56,0,0" VerticalAlignment="Top" Width="165" FontWeight="Bold" FontSize="20"/>
+            <Button x:Name="All_TestersButton" Content="All Testers" HorizontalAlignment="Left" Height="58" Margin="165,174,0,0" VerticalAlignment="Top" Width="135" FontWeight="Bold" FontSize="22" Click="All_TestersButton_Click"/>
+            <Button x:Name="All_TraineesButton" Content="All Trainees" HorizontalAlignment="Left" Height="58" Margin="336,174,0,0" VerticalAlignment="Top" Width="135" FontSize="22" FontWeight="Bold" Click="All_TraineesButton_Click"/>
+            <Button x:Name="All_TestsButton" Content="All Testers" HorizontalAlignment="Left" Height="58" Margin="507,174,0,0" VerticalAlignment="Top" Width="135" FontWeight="Bold" FontSize="22"/>
+
+            <Button x:Name="Log_outButton" Content="Log out" HorizontalAlignment="Left" Height="43" Margin="679,331,0,0" VerticalAlignment="Top" Width="83" FontWeight="Bold" FontSize="20" Click="Bt_logOut_Click"/>
+            <Button x:Name="BackButton" Content="Back" HorizontalAlignment="Left" Height="43" Margin="42,331,0,0" VerticalAlignment="Top" Width="73" FontWeight="Bold" FontSize="20" Click="BackButton_Click"/>
+
+
+        </Grid>
+       
+        <Grid x:Name="TraineeGrid" Visibility="Hidden">
+            <Label x:Name="Lb_Trainee" Content="Trainee mode" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="96" FontSize="14"/>
+
+            <ListView x:Name="My_Tests" FontSize="20" Margin="0,0,0,61" >
+                <ListView.View>
+                    <GridView AllowsColumnReorder="True" ColumnHeaderToolTip="Testers">
+                        <GridViewColumn Header=" Test code " DisplayMemberBinding="{Binding Path=Test_code}"/>
+                        <GridViewColumn Header=" Date " Width="auto" DisplayMemberBinding="{Binding Path=Date}"/>
+                        <GridViewColumn Header=" Car type " Width="auto" DisplayMemberBinding="{Binding Path=Car_type}"/>
+                        <GridViewColumn Header=" Gear type " Width="auto" DisplayMemberBinding="{Binding Path=Gear_type}"/>
+                        <GridViewColumn Header=" Starting point " Width="auto" DisplayMemberBinding="{Binding Path=Starting_point}"/>
+                        <GridViewColumn Header=" Grade " Width="auto" DisplayMemberBinding="{Binding Path=Grade}"/>
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <Button Content="Log out" Margin="686,363,10,10" FontWeight="Bold" FontSize="20" Click="Bt_logOut_Click"/>
+        </Grid>
+
+        <Grid x:Name="TesterGrid" Visibility="Hidden" >
+            <ListView x:Name="Tests" FontSize="20" Margin="94,64,94,80" Width="auto">
+                <ListView.View>
+                    <GridView AllowsColumnReorder="True" ColumnHeaderToolTip="Testers">
+                        <GridViewColumn Header=" Test code " DisplayMemberBinding="{Binding Path=Test_code}"/>
+                        <GridViewColumn Header=" Date " Width="auto" DisplayMemberBinding="{Binding Path=Date}"/>
+                        <GridViewColumn Header=" Trainee ID " Width="auto" DisplayMemberBinding="{Binding Path=Trainee_ID}"/>
+                        <GridViewColumn Header=" Trainee name " Width="auto" DisplayMemberBinding="{Binding Path=Trainee_name}"/>
+                        <GridViewColumn Header=" Starting point " Width="auto" DisplayMemberBinding="{Binding Path=Starting_point}"/>
+                        <GridViewColumn Header=" Grade " Width="auto" DisplayMemberBinding="{Binding Path=Grade}"/>
+
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+        </Grid>
+
+        <Grid x:Name="TableGrid" >
+            <ListView x:Name="TestersList" FontSize="20" FontWeight="Bold" Margin="0,0,0,0"  Visibility="Hidden">
+                <ListView.View >
+                    <GridView AllowsColumnReorder="True" ColumnHeaderToolTip="Testers">
+                        <GridViewColumn Header=" Last Name " Width="auto" DisplayMemberBinding="{Binding Path=Last_name}"/>
+                        <GridViewColumn Header=" First Name " Width="auto" DisplayMemberBinding="{Binding Path=First_name}"/>
+                        <GridViewColumn Header=" Email " Width="auto" DisplayMemberBinding="{Binding Path=Email}"/>
+                        <GridViewColumn Header=" Phone number " Width="auto" DisplayMemberBinding="{Binding Path=Phone_number}"/>
+                        <GridViewColumn Header=" Car type " Width="auto" DisplayMemberBinding="{Binding Path=Car_type}"/>
+                        <GridViewColumn Header=" Gear type " Width="auto" DisplayMemberBinding="{Binding Path=Gear_type}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <ListView x:Name="TraineesList" Margin="0,0,0,67" FontSize="20" FontWeight="Bold" Visibility="Hidden">
+                <ListView.View>
+                    <GridView AllowsColumnReorder="True" ColumnHeaderToolTip="Trainees">
+                        <GridViewColumn Header=" ID " Width="auto" DisplayMemberBinding="{Binding Path=ID}"/>
+                        <GridViewColumn Header=" Last Name " Width="auto" DisplayMemberBinding="{Binding Path=Last_name}"/>
+                        <GridViewColumn Header=" First Name " Width="auto" DisplayMemberBinding="{Binding Path=First_name}"/>
+                        <GridViewColumn Header=" Gender " Width="auto" DisplayMemberBinding="{Binding Path=Gender}"/>
+                        <GridViewColumn Header=" Car type " Width="auto" DisplayMemberBinding="{Binding Path=Car_type}"/>
+                        <GridViewColumn Header=" Gear type " Width="auto" DisplayMemberBinding="{Binding Path=Gear_type}"/>
+                        <GridViewColumn Header=" Address " Width="auto" DisplayMemberBinding="{Binding Path=Address}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <Button x:Name="BackButton1" Content="Back" HorizontalAlignment="Left" Height="46" Margin="22,363,0,0" VerticalAlignment="Top" Width="84" FontSize="20" FontWeight="Bold" Click="BackButton1_Click"/>
+        </Grid>
+
+        <Grid x:Name="All_traineesGrid" Visibility="Hidden">
+                    </Grid>
+   
+    </Grid>
+</Window>
