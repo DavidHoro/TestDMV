@@ -11,24 +11,25 @@
         <Label x:Name="Lb_Admin" Content="Admin mode" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="92" FontSize="14"/>
 
         <Label Content = "Trainee ID" HorizontalAlignment="Left" Margin="124,33,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="IDtextBox" HorizontalAlignment = "Left" Height="23" Margin="250,33,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" MaxLength="9" KeyUp="IDtextBox_KeyUp"/>
+        <TextBox x:Name="IDtextBox" HorizontalAlignment = "Left" Height="23" Margin="250,33,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" MaxLength="9" KeyUp="IDtextBox_KeyUp" BorderBrush="Black" FontSize="14" PreviewTextInput="OnlyNumbers"/>
         <Button x:Name="FindButton" Content="Find" HorizontalAlignment="Left" Height="23" Margin="394,33,0,0" VerticalAlignment="Top" Width="75" FontSize="14" Click="FindButton_Click"/>
 
         <Label Content = "Car type" HorizontalAlignment="Left" Margin="124,73,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="Car_typeTextBox" Text="{Binding Path=Car_type}" HorizontalAlignment = "Left" Height="23" Margin="250,73,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" IsReadOnly="True" FontSize="16"/>
+        <TextBox x:Name="Car_typeTextBox" Text="{Binding Path=Car_type}" HorizontalAlignment = "Left" Height="23" Margin="250,73,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" IsReadOnly="True" FontSize="14" BorderBrush="Black"/>
 
         <Label Content = "Gear type" HorizontalAlignment="Left" Margin="124,113,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="Gear_typeTextBox" Text="{Binding Path=Gear_type}" HorizontalAlignment = "Left" Height="23" Margin="250,113,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" IsReadOnly="True" FontSize="16"/>
+        <TextBox x:Name="Gear_typeTextBox" Text="{Binding Path=Gear_type}" HorizontalAlignment = "Left" Height="23" Margin="250,113,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" IsReadOnly="True" FontSize="14" BorderBrush="Black"/>
 
         <Label Content = "Starting point" HorizontalAlignment="Left" Margin="124,153,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="AddressTextBox"  HorizontalAlignment = "Left" Height="23" Margin="250,153,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" MinWidth="120"/>
-        
+        <TextBox x:Name="AddressTextBox"  HorizontalAlignment = "Left" Height="23" Margin="250,153,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" MinWidth="120" IsEnabled="False" BorderBrush="Black" FontSize="14" TextChanged="AddressTextBox_TextChanged" PreviewTextInput="AddressTextBox_PreviewTextInput"/>
+
         <Label Content = "Test date" HorizontalAlignment="Left" Margin="124,193,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <DatePicker x:Name="Test_datePicker" HorizontalAlignment = "Left" Margin="250,193,0,0" VerticalAlignment="Top" Width="120" CalendarOpened="Test_datePicker_calendar_opened" FontSize="14" CalendarClosed="Test_datePicker_CalendarClosed"/>
-        
+        <DatePicker x:Name="Test_datePicker" HorizontalAlignment = "Left" Margin="250,193,0,0" VerticalAlignment="Top" Width="120" CalendarOpened="Test_datePicker_calendar_opened" FontSize="14" CalendarClosed="Test_datePicker_CalendarClosed" IsEnabled="False" BorderBrush="Black"/>
+
         <Label Content = "Test hour" HorizontalAlignment="Left" Margin="124,233,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <ComboBox x:Name="Test_hourComboBox" HorizontalAlignment = "Left" Margin="250,233,0,0" VerticalAlignment="Top" Width="120" FontSize="16" FontWeight="Bold">
-        </ComboBox>
+        <ComboBox x:Name="Test_hourComboBox" HorizontalAlignment = "Left" Margin="250,233,0,0" VerticalAlignment="Top" Width="120" FontSize="14" FontWeight="Bold" IsEnabled="False" BorderBrush="Black"/>
+
+        <Label x:Name="AddressERROR" Content="*Wrong format" HorizontalAlignment="Left" Margin="394,168,0,0" VerticalAlignment="Top" Height="23" Foreground="#FFEA1414" Visibility="Hidden"/>
 
         <Button x:Name="Set_button" Content="Set" HorizontalAlignment="Left" Margin="394,273,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="-0.227,0.6" Height="27" FontWeight="Bold" FontSize="18" Click="Set_button_Click"/>
     </Grid>

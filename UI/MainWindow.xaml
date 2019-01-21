@@ -21,14 +21,13 @@
         </Grid>
 
         <Grid x:Name="Menu_1" >
-            <Label x:Name="Lb_Admin" Content="Admin mode" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="92" FontSize="14"/>
+            <Label Content="Admin mode" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="92" FontSize="14"/>
 
             <Button x:Name="Add_trainee_button" Content="Add trainee" HorizontalAlignment="Left" Margin="163,74,0,0" VerticalAlignment="Top" Width="175" Height="75" FontWeight="Bold" FontSize="22" Click="Add_trainee_button_Click"/>
             <Button x:Name="Add_tester_button" Content="Add tester" HorizontalAlignment="Left" Margin="443,74,0,0" VerticalAlignment="Top" Width="175" Height="75" FontSize="22" FontWeight="Bold" Click="Add_tester_button_Click"/>
             <Button x:Name="Set_test_button" Content="Set a test" HorizontalAlignment="Left" Margin="163,214,0,0" VerticalAlignment="Top" Width="175" Height="75" FontWeight="Bold" FontSize="22" Click="Set_test_button_Click"/>
             <Button x:Name="More_button" Content="More" HorizontalAlignment="Left" Margin="443,214,0,0" VerticalAlignment="Top" Width="175" Height="75" FontSize="22" FontWeight="Bold" Click="More_button_Click"/>
             <Button x:Name="Bt_logOut" Content="Log Out" HorizontalAlignment="Left" Height="47" Margin="686,356,0,0" VerticalAlignment="Top" Width="87" FontSize="18" FontWeight="Bold" Click="Bt_logOut_Click"/>
-            <Button Content="Button" HorizontalAlignment="Left" Height="30" Margin="269,343,0,0" VerticalAlignment="Top" Width="179" Click="Button_Click100"/>
 
         </Grid>
 
@@ -36,10 +35,10 @@
             <Label Content="Admin mode" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="92" FontSize="14" BorderBrush="#FF661717"/>
 
             <Button x:Name="Update_TraineeButton" Content="Update Trainee" HorizontalAlignment="Left" Height="63" Margin="165,56,0,0" VerticalAlignment="Top" Width="165" FontWeight="Bold" FontSize="20" Click="Update_TraineeButton_Click"/>
-            <Button x:Name="Update_TesterButton" Content="Update Tester" HorizontalAlignment="Left" Height="63" Margin="477,56,0,0" VerticalAlignment="Top" Width="165" FontWeight="Bold" FontSize="20"/>
+            <Button x:Name="Update_TesterButton" Content="Update Tester" HorizontalAlignment="Left" Height="63" Margin="477,56,0,0" VerticalAlignment="Top" Width="165" FontWeight="Bold" FontSize="20" Click="Update_TesterButton_Click"/>
             <Button x:Name="All_TestersButton" Content="All Testers" HorizontalAlignment="Left" Height="58" Margin="165,174,0,0" VerticalAlignment="Top" Width="135" FontWeight="Bold" FontSize="22" Click="All_TestersButton_Click"/>
             <Button x:Name="All_TraineesButton" Content="All Trainees" HorizontalAlignment="Left" Height="58" Margin="336,174,0,0" VerticalAlignment="Top" Width="135" FontSize="22" FontWeight="Bold" Click="All_TraineesButton_Click"/>
-            <Button x:Name="All_TestsButton" Content="All Testers" HorizontalAlignment="Left" Height="58" Margin="507,174,0,0" VerticalAlignment="Top" Width="135" FontWeight="Bold" FontSize="22"/>
+            <Button x:Name="All_TestsButton" Content="All Tests" HorizontalAlignment="Left" Height="58" Margin="507,174,0,0" VerticalAlignment="Top" Width="135" FontWeight="Bold" FontSize="22"/>
 
             <Button x:Name="Log_outButton" Content="Log out" HorizontalAlignment="Left" Height="43" Margin="679,331,0,0" VerticalAlignment="Top" Width="83" FontWeight="Bold" FontSize="20" Click="Bt_logOut_Click"/>
             <Button x:Name="BackButton" Content="Back" HorizontalAlignment="Left" Height="43" Margin="42,331,0,0" VerticalAlignment="Top" Width="73" FontWeight="Bold" FontSize="20" Click="BackButton_Click"/>
@@ -83,7 +82,7 @@
 
         </Grid>
 
-        <Grid x:Name="TableGrid" >
+        <Grid x:Name="TableGrid" Visibility="Hidden">
             <ListView x:Name="TestersList" FontSize="20" FontWeight="Bold" Margin="0,0,0,0"  Visibility="Hidden">
                 <ListView.View >
                     <GridView AllowsColumnReorder="True" ColumnHeaderToolTip="Testers">
@@ -114,8 +113,5 @@
             <Button x:Name="BackButton1" Content="Back" HorizontalAlignment="Left" Height="46" Margin="22,363,0,0" VerticalAlignment="Top" Width="84" FontSize="20" FontWeight="Bold" Click="BackButton1_Click"/>
         </Grid>
 
-        <Grid x:Name="All_traineesGrid" Visibility="Hidden">
-                    </Grid>
-   
     </Grid>
 </Window>

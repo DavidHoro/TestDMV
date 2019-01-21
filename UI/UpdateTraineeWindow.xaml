@@ -7,25 +7,25 @@
         mc:Ignorable="d"
         Title="UpdateTraineeWindow" Height="580" Width="500">
     <Grid x:Name="UpdateTraineeGrid">
-        <Label x:Name="Lb_Admin" Content="Admin mode" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="92" FontSize="14"/>
+        <Label Content="Admin mode" HorizontalAlignment="Left" Height="31" VerticalAlignment="Top" Width="92" FontSize="14"/>
 
-        <TextBox x:Name="IDTextBox" HorizontalAlignment="Left" Height="25" Margin="124,19,0,0" TextWrapping="Wrap" Text="Enter ID" VerticalAlignment="Top" Width="114" FontSize="16" Foreground="#FF8D8585" MaxLength="9" LostFocus="IDTextBox_LostFocus" GotFocus="IDTextBox_GotFocus"/>
-        <Button x:Name="FindButton" Content="Find" HorizontalAlignment="Left" Height="29" Margin="261,19,0,0" VerticalAlignment="Top" Width="109" FontSize="18" FontWeight="Bold"/>
+        <TextBox x:Name="IDTextBox" HorizontalAlignment="Left" Height="25" Margin="124,19,0,0" TextWrapping="Wrap" Text="Enter ID" VerticalAlignment="Top" Width="114" FontSize="16" Foreground="#FF8D8585" MaxLength="9" LostFocus="IDTextBox_LostFocus" GotFocus="IDTextBox_GotFocus" TextChanged="IDTextBox_TextChanged" PreviewTextInput="OnlyNumbers"/>
+        <Button x:Name="FindButton" Content="Find" HorizontalAlignment="Left" Height="29" Margin="261,19,0,0" VerticalAlignment="Top" Width="109" FontSize="18" FontWeight="Bold" Click="FindButton_Click" IsEnabled="False"/>
 
         <Label Content="First Name" HorizontalAlignment="Left" Margin="124,65,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="First_nameTextBox" Text="{Binding Path = First_name}" HorizontalAlignment="Left" Height="23" Margin="250,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="16" />
+        <TextBox x:Name="First_nameTextBox" Text="{Binding Path = First_name}" HorizontalAlignment="Left" Height="23" Margin="250,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" FontSize="16" PreviewTextInput="OnlyLetters" GotKeyboardFocus="First_nameTextBox_GotKeyboardFocus" />
 
         <Label Content="Last Name" HorizontalAlignment="Left" Margin="124,105,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="Last_nameTextBox" Text="{Binding Path = Last_name }" HorizontalAlignment="Left" Height="23" Margin="250,105,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" FontSize="16"/>
+        <TextBox x:Name="Last_nameTextBox" Text="{Binding Path = Last_name }" HorizontalAlignment="Left" Height="23" Margin="250,105,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" FontSize="16" PreviewTextInput="OnlyLetters" GotKeyboardFocus="Last_nameTextBox_GotKeyboardFocus"/>
 
         <Label Content="Phone number" HorizontalAlignment="Left" Margin="124,188,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="PhoneNumberTextBox" Text="{Binding Path = Phone_number}" HorizontalAlignment="Left" Height="23" Margin="250,188,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" MaxLength="10" FontSize="16"/>
+        <TextBox x:Name="PhoneNumberTextBox" Text="{Binding Path = Phone_number}" HorizontalAlignment="Left" Height="23" Margin="250,188,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" MaxLength="10" FontSize="16" PreviewTextInput="OnlyNumbers" GotKeyboardFocus="PhoneNumberTextBox_GotKeyboardFocus"/>
 
         <Label Content="Email" HorizontalAlignment="Left" Margin="124,228,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="EmailTextBox" Text="{Binding Path=Email}" HorizontalAlignment="Left" Height="23" Margin="250,228,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" FontSize="16" MinWidth="120"/>
+        <TextBox x:Name="EmailTextBox" Text="{Binding Path=Email}" HorizontalAlignment="Left" Height="23" Margin="250,228,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" FontSize="16" MinWidth="120" PreviewTextInput="EmailTextBox_PreviewTextInput" GotKeyboardFocus="EmailTextBox_GotKeyboardFocus"/>
 
         <Label Content="Address" HorizontalAlignment="Left" Margin="124,148,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox x:Name="AddressTextBox" Text="{Binding Path=Addres}" HorizontalAlignment="Left" Height="23" Margin="250,148,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" FontSize="16" MinWidth="120"/>
+        <TextBox x:Name="AddressTextBox" Text="{Binding Path=Addres}" HorizontalAlignment="Left" Height="23" Margin="250,148,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" FontSize="16" MinWidth="120" PreviewTextInput="AddressTextBox_PreviewTextInput" GotKeyboardFocus="AddressTextBox_GotKeyboardFocus"/>
 
         <Label Content="Car type" HorizontalAlignment="Left" Margin="124,268,0,0" VerticalAlignment="Top" FontSize="16"/>
         <ComboBox x:Name="Car_typeComboBox" SelectedItem="{Binding Path=Car_type}" HorizontalAlignment="Left" Margin="250,268,0,0" VerticalAlignment="Top" Width="120" FontSize="16"/>
@@ -34,20 +34,26 @@
         <ComboBox x:Name="Gear_typeComboBox" SelectedItem="{Binding Path=Gear_type}" HorizontalAlignment="Left" Margin="250,308,0,0" VerticalAlignment="Top" Width="120" FontSize="16"/>
 
         <Label Content="School" HorizontalAlignment="Left" Margin="124,348,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox Text="{Binding Path=School}" HorizontalAlignment="Left" Height="23" Margin="250,348,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" FontSize="16"/>
+        <TextBox x:Name="SchoolTextBox" Text="{Binding Path=School}" HorizontalAlignment="Left" Height="23" Margin="250,348,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" FontSize="16" GotKeyboardFocus="SchoolTextBox_GotKeyboardFocus"/>
 
         <Label Content="Teacher" HorizontalAlignment="Left" Margin="124,388,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <TextBox Text="{Binding Path=Teacher}" HorizontalAlignment="Left" Height="23" Margin="250,388,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" FontSize="16"/>
+        <TextBox x:Name="TeacherTextBox" Text="{Binding Path=Teacher}" HorizontalAlignment="Left" Height="23" Margin="250,388,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" FontSize="16" PreviewTextInput="OnlyLetters" GotKeyboardFocus="TeacherTextBox_GotKeyboardFocus"/>
 
         <Label Content="Lessons" HorizontalAlignment="Left" Margin="124,428,0,0" VerticalAlignment="Top" FontSize="16"/>
-        <!--<TextBox Text="{Binding Path=Lessons}" HorizontalAlignment="Left" Height="23" Margin="250,428,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" FontSize="16"/>-->
-
-        <Button x:Name="UpButton" Content="▲" HorizontalAlignment="Left" Height="21" Margin="340,433,0,0" VerticalAlignment="Top" Width="31" FontSize="14" Click="UpButton_Click" BorderBrush="Black"/>
-        <TextBox x:Name="LessonsTextBox" HorizontalAlignment="Left" Height="22" Margin="287,432,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="47" FontSize="14" IsReadOnly="True" BorderBrush="Black"/>
+        <Button x:Name="UpButton" Content="▲" HorizontalAlignment="Left" Height="21" Margin="340,433,0,0" VerticalAlignment="Top" Width="31" FontSize="14" Click="UpButton_Click" BorderBrush="Black" IsEnabled="False"/>
+        <TextBox x:Name="LessonsTextBox" Text="{Binding Path=Lessons}" HorizontalAlignment="Left" Height="22" Margin="287,432,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="47" FontSize="14" IsReadOnly="True" BorderBrush="Black"/>
         <Button x:Name="DownButton" Content="▼" HorizontalAlignment="Left" Height="21" Margin="250,433,0,0" VerticalAlignment="Top" Width="31" FontSize="14" IsEnabled="False" Click="DownButton_Click" BorderBrush="Black"/>
 
-        <Button x:Name="UpdateButton" Content="Updete" HorizontalAlignment="Left" Height="37" Margin="398,489,0,0" VerticalAlignment="Top" Width="73" FontWeight="Bold" FontSize="18"/>
-        <Button x:Name="DeleteButton" Content="Delete" HorizontalAlignment="Left" Height="37" Margin="31,489,0,0" VerticalAlignment="Top" Width="73" FontWeight="Bold" FontSize="18" Click="DeleteButton_Click"/>
+        <Label x:Name="First_nameERROR" Content="*Required" HorizontalAlignment="Left" Margin="383,63,0,0" VerticalAlignment="Top" Height="23" Foreground="#FFEA1414" Visibility="Hidden"/>
+        <Label x:Name="Last_nameERROR" Content="*Required" HorizontalAlignment="Left" Margin="383,105,0,0" VerticalAlignment="Top" Height="23" Foreground="#FFEA1414" Visibility="Hidden"/>
+        <Label x:Name="AddressERROR" Content="*Wrong format" HorizontalAlignment="Left" Margin="383,149,0,0" VerticalAlignment="Top" Height="23" Foreground="#FFEA1414" Visibility="Hidden"/>
+        <Label x:Name="PhoneERROR" Content="*Wrong format" HorizontalAlignment="Left" Margin="383,190,0,0" VerticalAlignment="Top" Height="23" Foreground="#FFEA1414" Visibility="Hidden"/>
+        <Label x:Name="EmailERROR" Content="*Wrong format" HorizontalAlignment="Left" Margin="383,228,0,0" VerticalAlignment="Top" Height="23" Foreground="#FFEA1414" Visibility="Hidden"/>
+        <Label x:Name="SchoolERROR" Content="*Required" HorizontalAlignment="Left" Margin="383,351,0,0" VerticalAlignment="Top" Height="23" Foreground="#FFEA1414" Visibility="Hidden"/>
+        <Label x:Name="TeacherERROR" Content="*Required" HorizontalAlignment="Left" Margin="383,388,0,0" VerticalAlignment="Top" Height="27" Foreground="#FFEA1414" Visibility="Hidden"/>
+
+        <Button x:Name="UpdateButton" Content="Updete" HorizontalAlignment="Left" Height="37" Margin="398,489,0,0" VerticalAlignment="Top" Width="73" FontWeight="Bold" FontSize="18" Click="UpdateButton_Click" IsEnabled="False"/>
+        <Button x:Name="DeleteButton" Content="Delete" HorizontalAlignment="Left" Height="37" Margin="31,489,0,0" VerticalAlignment="Top" Width="73" FontWeight="Bold" FontSize="18" Click="DeleteButton_Click" IsEnabled="False"/>
 
     </Grid>
 </Window>

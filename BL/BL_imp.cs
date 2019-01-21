@@ -152,7 +152,7 @@ namespace BL
             foreach (Test item in temp)
             {
                 if (item.Grade == null)
-                    throw new Exception("You already scheduled  for a test at" + item.Date);
+                    throw new Exception("You already scheduled  for a test at " + item.Date);
 
                 if (item.Grade == Grade.Pass)
                     throw new Exception("You already have a license for this type car");
@@ -331,7 +331,7 @@ namespace BL
             if (DT.DayOfWeek > DayOfWeek.Thursday)
                 return false;
 
-            if (t.Schedule[(int)DT.DayOfWeek, DT.Hour - 9] == false)
+            if (t.Schedule[DT.Hour - 9,(int)DT.DayOfWeek] == false)
                 return false;
 
            if (t.Appointments.Exists(item => item == DT))
@@ -347,7 +347,7 @@ namespace BL
 
             int count = 0;
             for (int i = 0; i < 6; i++)             //נמצא את מספר השעות שהוא עובד היום
-                if (t.Schedule[(int)D.DayOfWeek, i] == true)
+                if (t.Schedule[i,(int)D.DayOfWeek] == true)
                     count++;
 
             if (count == 0)         //אם לא עובד היום

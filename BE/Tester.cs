@@ -57,12 +57,12 @@ namespace BE
         /// </summary>
         /// <param name="arr1">מערך היעד</param>
         /// <param name="arr2">מערך המקור</param>
-        //public void Copy(bool [,]arr1,bool [,]arr2)
-        //{
-        //    for (int i = 0; i < arr1.GetLength(0); i++)
-        //        for (int j = 0; j < arr1.GetLength(1); j++) 
-        //            arr1[i, j] = arr2[i, j];
-        //}
+        public void Copy(bool[,] arr1, bool[,] arr2)
+        {
+            for (int i = 0; i < arr1.GetLength(0); i++)
+                for (int j = 0; j < arr1.GetLength(1); j++)
+                    arr1[i, j] = arr2[i, j];
+        }
 
         public object Clone()
         {

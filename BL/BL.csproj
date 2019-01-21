@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BL_imp.cs" />
-    <Compile Include="CalculetDestans.cs" />
+    <Compile Include="CalculetDistance.cs" />
     <Compile Include="Email.cs" />
     <Compile Include="FactoryBL.cs" />
     <Compile Include="Ibl.cs" />

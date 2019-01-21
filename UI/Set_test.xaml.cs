@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BE;
 using BL;
+using System.Text.RegularExpressions;
 
 namespace UI
 {
@@ -28,67 +29,42 @@ namespace UI
             InitializeComponent();
         }
 
-
-        private void set_hours_(DateTime d)
+        private void FindButton_Click(object sender, RoutedEventArgs e)
         {
-            List<string> hours = new List<string>();
-            IEnumerable<Tester> TesterList = myBL.Available_testers_nearby(Test_datePicker.SelectedDate.Value, AddressTextBox.Text.ToAddress(), Tools.ToCarType(Car_typeTextBox),Tools.ToGearType(Gear_typeTextBox.Text));
-
-
-            for (int i = 9; i <= 14; i++)
+            if (IDtextBox.Text.Length == 9)
             {
-                d = new DateTime(d.Year, d.Month, d.Day, i, 0, 0);
-                if (TesterList.Any(item => myBL.Available_at(item, d)))
-                    hours.Add(i + ":00");
+                try
+                {
+                    trainee = myBL.Get_trainee(IDtextBox.Text);
+                    Set_testGrid.DataContext = trainee;
+                    AddressTextBox.Text = trainee.Address.ToString();
+                    IDtextBox.IsReadOnly = true;
+                    AddressTextBox.IsEnabled = true;
+                    Test_datePicker.IsEnabled = true;
+                }
+                catch (Exception E)
+                {
+                    MessageBox.Show(E.Message, "ERROR!", MessageBoxButton.OK, MessageBoxImage.Error);
+                    IDtextBox.Clear();
+                }
             }
-
-            Test_hourComboBox.ItemsSource = hours;
         }
 
+        #region Set date and hour
         private void Test_datePicker_calendar_opened(object sender, RoutedEventArgs e)
         {
             Test_datePicker.DisplayDateStart = DateTime.Now.AddDays(2);
-            Test_datePicker.DisplayDateEnd = DateTime.Now.AddDays(2).AddMonths(1);
+            Test_datePicker.DisplayDateEnd = DateTime.Now.AddDays(2).AddMonths(3);
  
-            set_black_out_dates(DateTime.Now.AddDays(2), DateTime.Now.AddDays(2).AddMonths(1));
+            set_black_out_dates(Test_datePicker.DisplayDateStart.Value, Test_datePicker.DisplayDateEnd.Value);
         }
 
         private void Test_datePicker_CalendarClosed(object sender, RoutedEventArgs e)
         {
             if (Test_datePicker.SelectedDate != null)
+            {
                 set_hours();
-        }
-
-        private void Set_button_Click(object sender, RoutedEventArgs e)
-        {
-            DateTime testDT = Test_datePicker.SelectedDate.Value;
-            testDT = testDT.AddHours(Tools.ToInt(Test_hourComboBox.SelectedItem));
-
-            Tester tester = myBL.Available_testers_nearby(testDT, trainee.Address, trainee.Car_type, trainee.Gear_type).First();
-
-            int Min = tester.Address.Distance(trainee.Address);
-
-            foreach (Tester t in myBL.Available_testers_nearby(testDT, trainee.Address, trainee.Car_type, trainee.Gear_type))
-            {
-                if (t.Address.Distance(trainee.Address) < Min)
-                    tester = t;
-            }
-
-            Test test = new Test(trainee.ID, tester.ID, trainee.First_name + " " + trainee.Last_name, tester.First_name + " " + tester.Last_name, testDT, trainee.Address, trainee.Car_type, trainee.Gear_type);
-
-            if (myBL.Add_test(test))
-                MessageBox.Show("Test set", "yessss", MessageBoxButton.OK, MessageBoxImage.Information);
-
-            MainWindow.myWindow.Close();
-        }
-
-        private void FindButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (IDtextBox.Text.Length == 9)
-            {
-                trainee = myBL.Get_trainee(IDtextBox.Text);
-                Set_testGrid.DataContext = trainee;
-                AddressTextBox.Text = trainee.Address.ToString();
+                Test_hourComboBox.IsEnabled = true;
             }
         }
 
@@ -96,14 +72,16 @@ namespace UI
         {
             Test_datePicker.BlackoutDates.Clear();
 
+            trainee.Address = AddressTextBox.Text.ToAddress();
+
             DateTime i = start.Date;
 
             while(i <= end)
             {
-                var v = myBL.Available_testers_by_day_nearby(i, trainee.Address, trainee.Car_type, trainee.Gear_type);
+                    var v = myBL.Available_testers_by_day_nearby(i, trainee.Address, trainee.Car_type, trainee.Gear_type);
 
-                if (v.Count() == 0)
-                    Test_datePicker.BlackoutDates.Add(new CalendarDateRange(i));
+                    if (v.Count() == 0)
+                        Test_datePicker.BlackoutDates.Add(new CalendarDateRange(i));
 
                 i = i.AddDays(1);
             }
@@ -127,6 +105,7 @@ namespace UI
 
             Test_hourComboBox.ItemsSource = hours;
         }
+        #endregion
 
         private void IDtextBox_KeyUp(object sender, KeyEventArgs e)
         {
@@ -134,5 +113,70 @@ namespace UI
                 FindButton_Click(sender, e);
         }
 
+        private void Set_button_Click(object sender, RoutedEventArgs e)
+        {
+            if (AddressERROR.Visibility == Visibility.Hidden) 
+            {
+                DateTime testDT = Test_datePicker.SelectedDate.Value;
+                testDT = testDT.AddHours(Tools.ToInt(Test_hourComboBox.SelectedItem));
+
+                Tester tester = myBL.Available_testers_nearby(testDT, trainee.Address, trainee.Car_type, trainee.Gear_type).First();
+
+                int Min = tester.Address.Distance(trainee.Address);
+
+                foreach (Tester t in myBL.Available_testers_nearby(testDT, trainee.Address, trainee.Car_type, trainee.Gear_type))
+                {
+                    if (t.Address.Distance(trainee.Address) < Min)
+                        tester = t;
+                }
+
+                Test test = new Test(trainee.ID, tester.ID, trainee.First_name + " " + trainee.Last_name, tester.First_name + " " + tester.Last_name, testDT, trainee.Address, trainee.Car_type, trainee.Gear_type);
+
+                try
+                {
+                    myBL.Add_test(test);
+                    MessageBox.Show("Test set", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception E)
+                {
+                    MessageBox.Show(E.Message,"Error",MessageBoxButton.OK,MessageBoxImage.Stop);
+                }
+                
+                MainWindow.myWindow.Close();
+            }
+        }
+
+        private void AddressTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!Tools.IsValidAddress(AddressTextBox.Text))
+            {
+                AddressERROR.Visibility = Visibility.Visible;
+                AddressTextBox.BorderBrush = Brushes.Red;
+                Test_datePicker.IsEnabled = false;
+                Test_datePicker.SelectedDate = null;
+                Test_hourComboBox.SelectedItem = null;
+            }
+            else
+            {
+                AddressERROR.Visibility = Visibility.Hidden;
+                AddressTextBox.BorderBrush = Brushes.Black;
+                Test_datePicker.IsEnabled = true;
+            }
+        }
+
+        #region Restrictions on input
+        private void OnlyNumbers(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void AddressTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^a-zA-Z0-9,]+");
+            e.Handled = regex.IsMatch(e.Text);
+        }
+
+        #endregion
     }
 }

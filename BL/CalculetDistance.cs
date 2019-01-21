@@ -9,9 +9,9 @@ using System.Xml;
 
 namespace BL
 {
-    public class CalculetDestans
+    public class CalculetDistance
     {
-        public CalculetDestans(string Target, string Origin)
+        public CalculetDistance(string Target, string Origin)
         {
             this.Target = Target;
             this.Origin = Origin;

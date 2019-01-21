@@ -157,11 +157,17 @@ namespace UI
 
         private void Date_of_birthDatePicker_CalendarClosed(object sender, RoutedEventArgs e)
         {
-            if(Date_of_birthDatePicker.SelectedDate != null)
+            if (Date_of_birthDatePicker.SelectedDate != null)
             {
                 MaxSeniority = DateTime.Now.Year - Date_of_birthDatePicker.SelectedDate.Value.Year - 40;
-                if(MaxSeniority != 0)
+                if (MaxSeniority != 0)
                     UpButton2.IsEnabled = true;
+
+                if (int.Parse(SeniorityTextBox.Text) > MaxSeniority)
+                {
+                    SeniorityTextBox.Text = MaxSeniority.ToString();
+                    UpButton2.IsEnabled = false;
+                }
             }
         }
         #endregion
@@ -194,19 +200,19 @@ namespace UI
                 Date_of_birthDatePicker.BorderBrush = Brushes.DarkRed;
                 DateERROR.Visibility = Visibility.Visible;
             }
-            if (!IsValidAddress(AddressTextBox.Text))
+            if (!Tools.IsValidAddress(AddressTextBox.Text))
             {
                 ERROR = true;
                 AddressTextBox.BorderBrush = Brushes.Red;
                 AddressERROR.Visibility = Visibility.Visible;
             }
-            if (!IsValidPhoneNumber(PhoneNumberTextBox.Text))
+            if (!Tools.IsValidPhoneNumber(PhoneNumberTextBox.Text))
             {
                 ERROR = true;
                 PhoneNumberTextBox.BorderBrush = Brushes.Red;
                 PhoneERROR.Visibility = Visibility.Visible;
             }
-            if (!IsValidEmail(EmailTextBox.Text))
+            if (!Tools.IsValidEmail(EmailTextBox.Text))
             {
                 ERROR = true;
                 EmailTextBox.BorderBrush = Brushes.Red;
@@ -229,73 +235,6 @@ namespace UI
             Application.Current.MainWindow.Width = 600;
             ScheduleGrid.Visibility = Visibility.Hidden;
             Add_testerGrid.Visibility = Visibility.Visible;
-        }
-        #endregion
-
-        #region Validation test
-        bool IsValidAddress(string Address)
-        {
-            // פורמט כתובת תקין הוא כזה שבו מופיע שם הרחוב (אותיות ומספרים בלבד) ולאחריו פסיק
-            //אחרי הפסיק יופיע מספר הבית (ספרות בלבד) ולאחריו פסיק נוסף
-            //אחרי הפסיק השני יופיע שם העיר (אותיות בלבד
-            int count = 0;
-
-            foreach (var s in Address)
-                if (s == ',')
-                    count++;
-
-            if (count != 2)                   //count < 2 ???
-                return false;
-
-            int i = 0;
-
-            while (true)
-            {
-                if (Address[i] == ',')
-                    break;
-                if (!char.IsLetterOrDigit(Address[i]))
-                    return false;
-                i++;
-            }
-            if (i == 0) return false;        //מינימום רחוב באורך אות אחת
-
-            while (true)
-            {
-                if (Address[i] == ',')
-                    break;
-
-                if (!char.IsNumber(Address[i]))
-                    return false;
-                i++;
-            }
-         
-            if (i == Address.Length)       //מינימום עיר באורך אות אחת
-                return false;
-            return true;
-        }
-
-        bool IsValidPhoneNumber(string Number)
-        {
-            if (Number.Count() < 10)
-                return false;
-
-            if (Number[0] != '0' || Number[1] != '5')
-                return false;
-
-            return true;
-        }
-
-        bool IsValidEmail(string Email)
-        {
-            try
-            {
-                var addr = new MailAddress(Email);
-                return Email == addr.Address;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
         }
         #endregion
 
@@ -323,7 +262,7 @@ namespace UI
             try
             {
                 myBL.Add_tester(t);
-                MessageBox.Show("Trainee was added to the system", "", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("The tester was added to the system", "", MessageBoxButton.OK, MessageBoxImage.Information);
                 MainWindow.myWindow.Close();
             }
             catch (Exception E)

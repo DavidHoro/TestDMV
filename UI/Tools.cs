@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Mail;
 
 namespace UI
 {
@@ -58,5 +59,73 @@ namespace UI
                     return 0;
             }
         }
+
+        #region Validation test
+        public static bool IsValidEmail(string Email)
+        {
+            try
+            {
+                var addr = new MailAddress(Email);
+                return Email == addr.Address;
+            }
+            catch (Exception)
+            {
+
+                return false;
+            }
+        }
+
+        public static bool IsValidAddress(string Address)
+        {
+            // פורמט כתובת תקין הוא כזה שבו מופיע שם הרחוב (אותיות ומספרים בלבד) ולאחריו פסיק
+            //אחרי הפסיק יופיע מספר הבית (ספרות בלבד) ולאחריו פסיק נוסף
+            //אחרי הפסיק השני יופיע שם העיר (אותיות בלבד
+            int count = 0;
+
+            foreach (var s in Address)
+                if (s == ',')
+                    count++;
+
+            if (count != 2)                   //count < 2 ???
+                return false;
+
+            int i = 0;
+
+            while (true)
+            {
+                if (Address[i] == ',')
+                    break;
+                if (!char.IsLetterOrDigit(Address[i]) && Address[i] != ' ')
+                    return false;
+                i++;
+            }
+            if (i == 0) return false;        //מינימום רחוב באורך אות אחת
+
+            while (true)
+            {
+                if (Address[i] == ',')
+                    break;
+
+                if (!char.IsNumber(Address[i]) && Address[i] != ' ')
+                    return false;
+                i++;
+            }
+            if (i == Address.Length)       //מינימום עיר באורך אות אחת
+                return false;
+            return true;
+        }
+
+        public static bool IsValidPhoneNumber(string Number)
+        {
+            if (Number.Count() < 10)
+                return false;
+
+            if (Number[0] != '0' || Number[1] != '5')
+                return false;
+
+            return true;
+        }
+        #endregion
+
     }
 }

@@ -17,15 +17,14 @@ using System.Text.RegularExpressions;
 
 namespace UI
 {
-    /// <summary>
-    /// Interaction logic for UpdateTraineeWindow.xaml
-    /// </summary>
-    public partial class UpdateTraineeWindow : Window
+    public partial class UpdateTesterWindow : Window
     {
         Ibl myBL = FactoryBL.Get_BL();
-        Trainee t;
+        Tester t;
+        int MaxSeniority;
+        bool[,] arr = new bool[6, 5];
 
-        public UpdateTraineeWindow()
+        public UpdateTesterWindow()
         {
             InitializeComponent();
             Car_typeComboBox.ItemsSource = Enum.GetValues(typeof(CarType));
@@ -43,7 +42,7 @@ namespace UI
 
         private void IDTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            if(IDTextBox.Text == "Enter ID")
+            if (IDTextBox.Text == "Enter ID")
                 IDTextBox.Text = IDTextBox.Text.Remove(0);
             IDTextBox.Foreground = Brushes.Black;
         }
@@ -58,13 +57,27 @@ namespace UI
         {
             try
             {
-                t = myBL.Get_trainee(IDTextBox.Text);
-                UpdateTraineeGrid.DataContext = t;
+                func();
+
+            }
+            catch (Exception E)
+            {
+                MessageBox.Show(E.Message);
+            }
+            try
+            {
+                t = myBL.Get_tester(IDTextBox.Text);
+                UpdateTesterGrid.DataContext = t;
                 AddressTextBox.Text = t.Address.ToString();
+                t.Copy(arr, t.Schedule);
                 IDTextBox.IsReadOnly = true;
-                UpdateButton.IsEnabled = true;
+                NextButton.IsEnabled = true;
                 DeleteButton.IsEnabled = true;
-                UpButton.IsEnabled = true;
+                UpButton1.IsEnabled = true;
+
+                MaxSeniority = DateTime.Now.Year - t.Date_of_birth.Year - 40;
+                if (MaxSeniority != 0)
+                    UpButton2.IsEnabled = true;
             }
             catch (Exception E)
             {
@@ -73,7 +86,18 @@ namespace UI
             }
         }
 
-        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to delete this tester?", "Delete", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                if (myBL.Delete_tester(IDTextBox.Text))
+                    MessageBox.Show("The tester was deleted", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                MainWindow.myWindow.Close();
+            }
+        }
+
+        private void NextButton_Click(object sender, RoutedEventArgs e)
         {
             bool ERROR = false;
             if (First_nameTextBox.Text.Length == 0)
@@ -106,57 +130,87 @@ namespace UI
                 EmailTextBox.BorderBrush = Brushes.Red;
                 EmailERROR.Visibility = Visibility.Visible;
             }
-            if (SchoolTextBox.Text.Length == 0)
-            {
-                ERROR = true;
-                SchoolTextBox.BorderBrush = Brushes.Red;
-                SchoolERROR.Visibility = Visibility.Visible;
-            }
-            if (TeacherTextBox.Text.Length == 0)
-            {
-                ERROR = true;
-                TeacherTextBox.BorderBrush = Brushes.Red;
-                TeacherERROR.Visibility = Visibility.Visible;
-            }
+
 
             if (!ERROR)
             {
-                if (myBL.Updete_trainee(t))
-                    MessageBox.Show("The trainee info was updated", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
-                MainWindow.myWindow.Close();
+                Application.Current.MainWindow = this;
+                Application.Current.MainWindow.Width = 800;
+                ScheduleGrid.Visibility = Visibility.Visible;
+                UpdateTesterGrid.Visibility = Visibility.Hidden;
             }
         }
 
-        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if(MessageBox.Show("Are you sure you want to delete this trainee?", "Delete", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-            {
-                if(myBL.Delete_trainee(IDTextBox.Text))
-                    MessageBox.Show("The trainee was deleted", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
+            Button bt = sender as Button;
+            int x = (int)bt.GetValue(Grid.RowProperty) - 1;
+            int y = (int)bt.GetValue(Grid.ColumnProperty) - 1;
 
-                MainWindow.myWindow.Close();
-            }
+            arr[x, y] = !arr[x, y];
+
+            if (bt.Background == Brushes.Gray)
+                bt.Background = Brushes.Yellow;
+            else
+                bt.Background = Brushes.Gray;
         }
 
-        private void UpButton_Click(object sender, RoutedEventArgs e)
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            LessonsTextBox.Text = (int.Parse(LessonsTextBox.Text) + 1).ToString();
+            t.Address = AddressTextBox.Text.ToAddress();
+            t.Max_tests = arr.Length;
+            t.Copy(t.Schedule, arr);
 
-            if (int.Parse(LessonsTextBox.Text) == 40)
-                UpButton.IsEnabled = false;
+            if(myBL.Updete_tester(t))
+                MessageBox.Show("The tester info was updated", "Confirmation", MessageBoxButton.OK, MessageBoxImage.Information);
 
-            DownButton.IsEnabled = true;
+            MainWindow.myWindow.Close();
         }
 
-        private void DownButton_Click(object sender, RoutedEventArgs e)
+        private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            LessonsTextBox.Text = (int.Parse(LessonsTextBox.Text) - 1).ToString();
-
-            if (int.Parse(LessonsTextBox.Text) == 0)
-                DownButton.IsEnabled = false;
-
-            UpButton.IsEnabled = true;
+            Application.Current.MainWindow = this;
+            Application.Current.MainWindow.Width = 600;
+            ScheduleGrid.Visibility = Visibility.Hidden;
+            UpdateTesterGrid.Visibility = Visibility.Visible;
         }
+
+        #region Up and Down buttons
+        private void UpButton1_Click(object sender, RoutedEventArgs e)
+        {
+            Max_distanceTextBox.Text = (int.Parse(Max_distanceTextBox.Text) + 1).ToString();
+            DownButton1.IsEnabled = true;
+        }
+
+        private void DownButton1_Click(object sender, RoutedEventArgs e)
+        {
+            Max_distanceTextBox.Text = (int.Parse(Max_distanceTextBox.Text) - 1).ToString();
+
+            if (int.Parse(SeniorityTextBox.Text) == 0)
+                DownButton1.IsEnabled = false;
+        }
+
+        private void UpButton2_Click(object sender, RoutedEventArgs e)
+        {
+            SeniorityTextBox.Text = (int.Parse(SeniorityTextBox.Text) + 1).ToString();
+
+            if (int.Parse(SeniorityTextBox.Text) == MaxSeniority)
+                UpButton2.IsEnabled = false;
+
+            DownButton2.IsEnabled = true;
+        }
+
+        private void DownButton2_Click(object sender, RoutedEventArgs e)
+        {
+            SeniorityTextBox.Text = (int.Parse(SeniorityTextBox.Text) - 1).ToString();
+
+            if (int.Parse(SeniorityTextBox.Text) == 0)
+                DownButton2.IsEnabled = false;
+
+            UpButton2.IsEnabled = true;
+        }
+
+        #endregion
 
         #region Restrictions on input
         private void OnlyNumbers(object sender, TextCompositionEventArgs e)
@@ -214,19 +268,30 @@ namespace UI
             EmailERROR.Visibility = Visibility.Hidden;
             EmailTextBox.BorderBrush = Brushes.Black;
         }
-
-        private void SchoolTextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            SchoolERROR.Visibility = Visibility.Hidden;
-            SchoolTextBox.BorderBrush = Brushes.Black;
-        }
-
-        private void TeacherTextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
-        {
-            TeacherERROR.Visibility = Visibility.Hidden;
-            TeacherTextBox.BorderBrush = Brushes.Black;
-        }
         #endregion
+
+        void func()
+        {
+            List<Button> l = new List<Button>();
+            Button b;
+            foreach (var item in ScheduleGrid.Children)
+            {
+                if (item is Button)
+                {
+                    b = item as Button;
+                        l.Add(b);
+                }
+            }
+
+            for (int i = 0; i < l.Count-2; i++)
+            {
+                int x = (int)l[i].GetValue(Grid.RowProperty) - 1;
+                int y = (int)l[i].GetValue(Grid.ColumnProperty) - 1;
+
+                if(t.Schedule[x,y])
+                    l[i].Background = Brushes.Yellow;
+            }
+        }
 
     }
 }
