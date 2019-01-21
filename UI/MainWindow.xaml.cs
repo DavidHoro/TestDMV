@@ -40,9 +40,12 @@ namespace UI
             InitializeComponent();
             Initialize();
             // new Dal_XML_imp().Read();
-            CalculetDestans calcObj = new CalculetDestans("pisga 45 st. jerusalem",
-                "gilgal 78 st.ramat - gan");
-          double km  = calcObj.Calc();
+            //  CalculetDestans calcObj = new CalculetDestans("pisga 45 st. jerusalem",
+            //      "gilgal 78 st.ramat - gan");
+            //double km  = calcObj.Calc();
+
+            Email Email = new Email("zeev199@gmail.com", "test");
+            Email.SendingEmail("test");
 
         }
 
